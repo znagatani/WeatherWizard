@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Bootstrap 101 Template</title>
+    <title>Weather Wizard</title>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -37,15 +37,21 @@
 
             <div class="form-group">
 
-              <input type="text" name="city" class="form-control center" placeholder="San Jose" />
-              <button class="btn btn-primary btn-lg">Find My Forecast!</button>
+              <input type="text" name="city" class="form-control" placeholder="Ex: San Jose, London, Chicago" id="city" />
+              <button id ="findMyForecast" class="btn btn-primary btn-lg">Find My Forecast!</button>
 
             </div>
 
           </form>
 
-        </div>
+           <div id="success" class="alert alert-success" style="display:none;">Successful!</div>
 
+           <div id="fail" class="alert alert-danger" style="display:none;">Shoot... I couldn't figure out the weather for that city. Enter sad face here.</div>
+
+           <div id="no-city" class="alert alert-danger" style="display:none;">I can't work my magic without a city!</div>
+
+
+        </div>
 
       </div>
 
@@ -56,6 +62,41 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+
+      $("#findMyForecast").click(function(event) {
+
+        event.preventDefault();
+
+        $(".alert").hide();
+
+        if ($("#city").val()!="") {
+
+        $.get("scraper.php?city="+$("#city").val(), function(data) {
+
+        
+          if (data=="") {
+
+            $("#fail").fadeIn();
+
+          } else {
+
+            $("#success").html(data).fadeIn();
+
+          }
+
+        });
+
+         } else {
+         
+          $("#no-city").fadeIn();
+        
+        } 
+        
+      });
+
+    </script>
 
   </body>
 </html>
